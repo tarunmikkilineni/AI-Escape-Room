@@ -1,3 +1,5 @@
+from argparse import Action
+
 import streamlit as st
 import os
 from dotenv import load_dotenv
@@ -91,6 +93,7 @@ if submitted and player_action:
         st.write("You examine the bookshelf.")
         fallback_message = "Four ancient books seem to be hiding a secret."
         gm_response = get_game_master_response(player_action, fallback_message)
+        st.session_state.history.append(("Game Master", gm_response))
         st.info(f"Game Master: {gm_response}")
         st.write("Four unusual books catch your attention.")
         st.write("You open each book and discover handwritten numbers:")
@@ -111,6 +114,7 @@ if submitted and player_action:
             st.write("An old notebook lies beside a dusty lamp.")
             fallback_message = "The notebook may contain a clue. Perhaps you should read it."
             gm_response = get_game_master_response(player_action, fallback_message)
+            st.session_state.history.append(("Game Master", gm_response))
             st.info(f"Game Master: {gm_response}")
 
 
@@ -119,6 +123,7 @@ if submitted and player_action:
         st.write("You carefully examine the mysterious painting.")
         fallback_message = "Something about this painting feels unusual. Look closely."
         gm_response = get_game_master_response(player_action, fallback_message)
+        st.session_state.history.append(("Game Master", gm_response))
         st.info(f"Game Master: {gm_response}")
         st.write("You notice that the painting is slightly tilted.")
         st.write("You move the painting and discover a hidden message!")
@@ -129,35 +134,43 @@ if submitted and player_action:
     
     
     
+    
+    
     elif "drawer" in action:
         if "4729" in action:
             st.success("Correct combination! The drawer opens.")
 
             fallback_message = "Well done! You have solved the secret combination."
             gm_response = get_game_master_response(player_action, fallback_message)
+            st.session_state.history.append(("Game Master", gm_response))
             st.info(f"Game Master: {gm_response}")
 
             st.write("Inside the drawer, you discover a small brass key.")
 
             if "Brass Key" not in st.session_state.inventory:
                 st.session_state.inventory.append("Brass Key")
+
         else:
             st.warning("The drawer is locked. Enter the correct four-digit combination.")
 
             fallback_message = "The answer may be hidden among the books."
             gm_response = get_game_master_response(player_action, fallback_message)
+            st.session_state.history.append(("Game Master", gm_response))
             st.info(f"Game Master: {gm_response}")
 
 
 
+
+
     
+
     
     elif "door" in action:
         if "Brass Key" not in st.session_state.inventory:
             st.warning("The door is locked. You need to find the Brass Key.")
-
             fallback_message = "The ancient door refuses to open without a key."
             gm_response = get_game_master_response(player_action, fallback_message)
+            st.session_state.history.append(("Game Master", gm_response))
             st.info(f"Game Master: {gm_response}")
 
         elif "moon" in action:
@@ -168,14 +181,16 @@ if submitted and player_action:
 
             fallback_message = "The ancient door swings open. You are finally free!"
             gm_response = get_game_master_response(player_action, fallback_message)
+            st.session_state.history.append(("Game Master", gm_response))
             st.info(f"Game Master: {gm_response}")
 
         else:
             st.warning("You have the Brass Key, but you still need the secret password.")
-
             fallback_message = "The key turns, but the door awaits a secret word."
             gm_response = get_game_master_response(player_action, fallback_message)
+            st.session_state.history.append(("Game Master", gm_response))
             st.info(f"Game Master: {gm_response}")
+
 
   
 st.subheader("Conversation History")
