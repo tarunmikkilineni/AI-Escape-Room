@@ -7,9 +7,10 @@ Version 2 improves the original AI Escape Room by
 introducing structured puzzle state and stronger
 validation of player actions.
 
+
 ## Architecture Diagram
 
-
+```mermaid
 flowchart TD
     A[Player] --> B[Streamlit Interface]
     B --> C[Player Action Processing]
@@ -21,6 +22,8 @@ flowchart TD
     F --> I[Game Progress and Feedback]
     H --> J[Streamlit Displays Results]
     I --> J
+```
+
 
 
 ## Main Components
