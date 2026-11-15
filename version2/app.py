@@ -41,6 +41,14 @@ if "history" not in st.session_state:
 
 if "inventory" not in st.session_state:
     st.session_state.inventory = []
+    if "room_objects" not in st.session_state:
+     st.session_state.room_objects = {
+        "bookshelf": {"available": True},
+        "wooden_desk": {"available": True},
+        "painting": {"available": True},
+        "locked_drawer": {"available": True},
+        "exit_door": {"available": True}
+    }
 
 # Version 2: Structured puzzle state
 if "drawer_solved" not in st.session_state:
@@ -274,13 +282,11 @@ if st.button("Test Gemini Connection"):
             st.success("Gemini connected successfully!")
             st.write(response.text)
         
-       
         except Exception as e:
-            if "429" in str(e):
-                st.warning("Gemini API quota exceeded. Please try again when quota is available.")
-            else:
-                st.warning("Gemini is temporarily unavailable. Your game still works.")
-
+                    if "429" in str(e):
+                        st.warning("Gemini API quota exceeded. Please try again when quota is available.")
+                    else:
+                        st.warning("Gemini is temporarily unavailable. Your game still works.")
 
 
 
