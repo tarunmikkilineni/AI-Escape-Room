@@ -43,6 +43,28 @@ Players explore a mysterious library, discover clues, solve puzzles, collect a B
 4. Create a `.env` file using `.env.example` as a guide.
 5. Add your own Gemini API key to `.env`.
 
+
+## Running the Application
+
+To start Version 1, open a terminal in the project folder and run:
+
+```powershell
+streamlit run version1/app.py
+```
+
+To start Version 2, run:
+
+```powershell
+streamlit run version2/app.py
+```
+
+Run one version at a time.
+
+Streamlit will open the AI Escape Room in your web browser.
+Enter natural-language commands to explore the library,
+solve puzzles, collect items, and escape.
+
+
 ## Run Version 1
 
 From the main project folder, run:
