@@ -1,5 +1,3 @@
-from argparse import Action
-
 import streamlit as st
 import os
 from dotenv import load_dotenv
@@ -55,11 +53,29 @@ if "password_discovered" not in st.session_state:
 if "escaped" not in st.session_state:
     st.session_state.escaped = False
 
+
+# Version 2: Validate exit-door actions
+def validate_exit_action(action):
+    if "Brass Key" not in st.session_state.inventory:
+        return False, "The door is locked. You need to find the Brass Key."
+
+    if not st.session_state.password_discovered:
+        return False, "You must discover the password clue before escaping."
+
+    if "moon" not in action.lower():
+        return False, "The secret password is incorrect or missing."
+
+    return True, "The exit door can be opened."
+
+
 def restart_game():
     st.session_state.history = []
     st.session_state.inventory = []
     st.session_state.player_action = ""
     st.session_state.escaped = False
+    st.session_state.drawer_solved = False
+    st.session_state.password_discovered = False
+
 
 
 st.title("AI Escape Room")
@@ -175,15 +191,11 @@ if submitted and player_action:
     
 
     
+    
     elif "door" in action:
-        if "Brass Key" not in st.session_state.inventory:
-            st.warning("The door is locked. You need to find the Brass Key.")
-            fallback_message = "The ancient door refuses to open without a key."
-            gm_response = get_game_master_response(player_action, fallback_message)
-            st.session_state.history.append(("Game Master", gm_response))
-            st.info(f"Game Master: {gm_response}")
+        is_valid, validation_message = validate_exit_action(action)
 
-        elif "moon" in action and st.session_state.password_discovered:
+        if is_valid:
             st.session_state.escaped = True
             st.balloons()
             st.success("Congratulations! You escaped the Mysterious Library!")
@@ -195,11 +207,21 @@ if submitted and player_action:
             st.info(f"Game Master: {gm_response}")
 
         else:
-            st.warning("You have the Brass Key, but you still need the secret password.")
-            fallback_message = "The key turns, but the door awaits a secret word."
+            st.warning(validation_message)
+
+            fallback_message = "The ancient door remains firmly locked."
             gm_response = get_game_master_response(player_action, fallback_message)
             st.session_state.history.append(("Game Master", gm_response))
             st.info(f"Game Master: {gm_response}")
+
+    else:
+        fallback_message = (
+            "That action is not available in this room. "
+            "Try examining the bookshelf, desk, painting, drawer, or exit door."
+        )
+        st.warning(fallback_message)
+        st.session_state.history.append(("Game Master", fallback_message))
+
 
 
   
