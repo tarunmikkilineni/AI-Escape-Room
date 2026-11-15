@@ -70,3 +70,51 @@ Successful live Gemini narration has not yet been verified.
 ## Version 2
 
 Version 2 will introduce structured game state, validated actions, and stronger protection against invalid or malicious inputs.
+
+## Version 1 vs Version 2
+
+| Feature | Version 1 | Version 2 |
+|---|---|---|
+| Streamlit interface | Yes | Yes |
+| Gemini AI Game Master | Yes | Yes |
+| Inventory management | Yes | Yes |
+| Conversation history | Yes | Yes |
+| Drawer puzzle | Yes | Yes |
+| Painting password clue | Yes | Yes |
+| Structured puzzle flags | No | Yes |
+| Password discovery validation | No | Yes |
+| Reset puzzle flags on restart | No | Yes |
+
+### Version 1 Challenges
+
+- Players could guess the password without examining the painting.
+- Game state tracked inventory and escape status but did not
+  explicitly track whether individual puzzles were completed.
+- Maintaining correct Python indentation during development
+  required debugging and testing.
+- Gemini API responses could be unavailable due to usage limits,
+  so fallback narration was necessary.
+
+### Version 2 Improvements
+
+- Added `drawer_solved` to track drawer puzzle completion.
+- Added `password_discovered` to track painting clue discovery.
+- Updated exit-door validation to require password discovery.
+- Updated Restart Game to reset both puzzle flags.
+- Tested attempts to bypass puzzle requirements.
+
+### Testing Evidence
+
+Six gameplay test cases, including adversarial tests,
+are documented in [Test Cases](docs/test_cases.md).
+
+### Architecture Diagrams
+
+- [Version 1 Architecture](docs/version1_architecture.md)
+- [Version 2 Architecture](docs/version2_architecture.md)
+
+### Gameplay Screenshots
+
+Screenshots of Version 1 gameplay, puzzle clues, inventory,
+incorrect answers, and successful escape are available
+in [Gameplay Screenshots](docs/screenshots/).
